@@ -1,0 +1,44 @@
+QUEM VAI SOBREVIVER? — corrida de bicicleta roteirizada
+=======================================================
+
+COMO RODAR
+- Suba a pasta inteira no GitHub Pages (ou abra com qualquer servidor local).
+- Sem Firebase configurado, ele roda em MODO LOCAL: abra o site em duas abas
+  do mesmo navegador para testar os 2 jogadores. "testar sozinho" no lobby
+  roda a corrida com um jogador só.
+
+ONLINE (2 PCs)
+- Em js/config.js, troque  firebase: null  pela config do seu projeto Firebase
+  (precisa do databaseURL do Realtime Database).
+- Quem entra primeiro é o Jogador 1 (azul), o segundo é o Jogador 2 (vermelho).
+- Cada um clica no rosto de quem acha que vai ganhar e aperta COMEÇAR.
+  Quando os dois estão prontos a corrida começa sincronizada nos dois PCs.
+- "resetar sala" no lobby tira os dois jogadores e limpa a partida.
+
+ROSTOS DOS YOUTUBERS
+- Edite js/corredores.js: nome, cor e caminho da foto (PNG só do rosto).
+- Coloque os PNGs em img/rostos/. Já está esperando:
+    img/rostos/jazzghost.png  e  img/rostos/torajo.png
+- Sem foto (ou arquivo faltando), aparece um rosto desenhado de placeholder.
+
+ROTEIRO
+- js/config.js: vencedor = "Jazzghost", vice = "Torajo".
+  Os dois sempre chegam juntos na final e o vencedor é o último que sobra.
+- Os outros 14 são sorteados a cada partida para cair em cada armadilha.
+- Duração: ~11 min 40 s de corrida + contagem.
+- A lista de eventos (horário de cada armadilha) está em js/simulacao.js,
+  função buildScript().
+
+PAUSAR / VOLTAR (os dois jogadores controlam, as duas telas andam juntas)
+- Aperte H (ou clique no ícone de teclado na barra de baixo) para ver os atalhos.
+- Espaço pausa, setas voltam/avançam 5 s (Shift = 15 s), 1/2/3/4 mudam a velocidade,
+  0 recomeça do início, M liga/desliga a música, S liga/desliga todo o som.
+
+RESISTENTES
+- js/config.js: resistentes = ["Alexey", "Problems"] — ficam até bem tarde
+  (Alexey sai no gelo, Problems é o último antes da final).
+
+ATALHOS DE TESTE (na URL)
+- ?solo&auto        começa direto no modo teste
+- ?solo&auto&t=600  pula para o segundo 600 da corrida
+- ?vel=4            corrida 4x mais rápida

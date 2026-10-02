@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quem Vai Sobreviver? — Corrida de Bicicleta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="palco">
+    <canvas id="tela" width="1920" height="756"></canvas>
+    <div id="resultado" class="oculto"></div>
+    <div id="atalhos" class="oculto">
+      <h2>Atalhos</h2>
+      <table>
+        <tr><td><kbd>Espaço</kbd></td><td>pausar / continuar</td></tr>
+        <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>voltar / avançar 5 segundos</td></tr>
+        <tr><td><kbd>Shift</kbd> + <kbd>←</kbd> <kbd>→</kbd></td><td>voltar / avançar 15 segundos</td></tr>
+        <tr><td><kbd>,</kbd> <kbd>.</kbd></td><td>voltar / avançar 1 segundo</td></tr>
+        <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd></td><td>velocidade 0.5x / 1x / 2x / 4x</td></tr>
+        <tr><td><kbd>0</kbd> ou <kbd>Home</kbd></td><td>recomeçar a corrida do início</td></tr>
+        <tr><td><kbd>M</kbd></td><td>música liga / desliga</td></tr>
+        <tr><td><kbd>S</kbd></td><td>todo o som liga / desliga</td></tr>
+        <tr><td><kbd>H</kbd></td><td>mostrar / esconder esta lista</td></tr>
+      </table>
+      <p>Pausar e voltar valem para os dois jogadores ao mesmo tempo.</p>
+    </div>
+  </div>
+  <div id="painel">
+    <div id="barra"></div>
+    <div id="rostos"></div>
+  </div>
+
+  <div id="lobby">
+    <div class="nuvem n1"></div><div class="nuvem n2"></div><div class="nuvem n3"></div>
+    <div class="caixa">
+      <h1>QUEM VAI<br>SOBREVIVER?</h1>
+      <p class="sub">Corrida de bicicleta dos youtubers</p>
+      <div class="form">
+        <label id="previa" for="foto" title="Escolher foto"><span>+ foto</span></label>
+        <input type="file" id="foto" accept="image/*" hidden>
+        <input type="text" id="nome" maxlength="18" placeholder="Seu nome" autocomplete="off">
+        <button id="entrar">ENTRAR NA SALA</button>
+        <button id="solo">TESTAR SOZINHO</button>
+      </div>
+      <div id="status"></div>
+      <div id="lista"></div>
+      <div class="rodape">
+        <span id="modo"></span>
+        <button id="resetar" class="link">resetar sala</button>
+      </div>
+    </div>
+    <div class="chao"></div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/corredores.js"></script>
+<script src="js/simulacao.js"></script>
+<script src="js/arte.js"></script>
+<script src="js/render.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/principal.js"></script>
+</body>
+</html>
