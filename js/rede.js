@@ -6,25 +6,35 @@
 const NET = (() => {
   let mode = 'local', root = null, offset = 0, ouvintes = [], estado = {}, conectado = false, aoConectar = () => { };
   const KEY = 'corrida_bike_sala';
-  const cfg = window.CONFIG && window.CONFIG.firebase;
-  const temFirebase = !!(cfg && cfg.apiKey && cfg.databaseURL && !/COLE|SEU-PROJETO/i.test(cfg.apiKey + cfg.databaseURL));
-
+  // Firebase único (jogos-github): a config e a pasta vêm da trava do site principal (/trava.js).
+  // Sem a trava (arquivo aberto direto do PC), roda em modo local.
+  const SITE = 'ciclismo_youtubers';
+  const ESCRITA = { sala: true }; // pastas que os jogadores podem gravar
   function carregar(src) { return new Promise((ok, erro) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = erro; document.head.appendChild(s); }); }
   function avisar() { for (const f of ouvintes) f(estado); }
   function lerLocal() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
   function gravarLocal(v) { localStorage.setItem(KEY, JSON.stringify(v || {})); estado = v || {}; avisar(); }
 
   async function init() {
-    if (temFirebase) {
+    if (window.Trava && window.Trava.ready) {
       try {
-        await carregar('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
-        await carregar('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js');
-        firebase.initializeApp(cfg);
-        const db = firebase.database();
-        root = db.ref(window.CONFIG.caminho || 'corrida-bicicleta/sala');
+        const t = await window.Trava.ready;
+        if (!t || !window.firebase || !firebase.apps.length) throw new Error('trava sem Firebase');
+        const db = firebase.database(), auth = firebase.auth();
+        if (!auth.currentUser) await auth.signInAnonymously();
+        // navegador da equipe: garante que a Central saiba quais pastas o jogo grava
+        if (window.Trava.admin) {
+          try {
+            const ref = db.ref('controle/sites/' + SITE);
+            const cur = (await ref.once('value')).val();
+            if (!cur) await ref.set({ open: false, escrita: ESCRITA, t: firebase.database.ServerValue.TIMESTAMP });
+            else if (!cur.escrita || !cur.escrita.sala) await ref.child('escrita/sala').set(true);
+          } catch (e) { console.warn('controle', e); }
+        }
+        root = db.ref((window.DB_ROOT || 'sites/' + SITE) + '/' + (window.CONFIG.caminho || 'sala'));
         db.ref('.info/serverTimeOffset').on('value', s => { offset = s.val() || 0; });
         db.ref('.info/connected').on('value', s => { conectado = !!s.val(); aoConectar(conectado); });
-        root.on('value', s => { estado = s.val() || {}; avisar(); });
+        root.on('value', s => { estado = s.val() || {}; avisar(); }, e => console.warn('sem acesso à sala', e));
         mode = 'firebase';
         return mode;
       } catch (e) { console.warn('Firebase falhou, usando modo local', e); }

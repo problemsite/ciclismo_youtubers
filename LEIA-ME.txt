@@ -7,12 +7,14 @@ COMO RODAR
   do mesmo navegador para testar os 2 jogadores. "testar sozinho" no lobby
   roda a corrida com um jogador só.
 
-ONLINE (2 PCs)
-- Em js/config.js, troque  firebase: null  pela config do seu projeto Firebase
-  (precisa do databaseURL do Realtime Database).
+ONLINE (2 PCs) — Firebase único "jogos-github" + trava da Central
+- O jogo carrega /trava.js do site principal: ele usa o Firebase único e só abre
+  quando o site estiver liberado na Central (e com a senha dos jogadores, se houver).
+- Os dados ficam em sites/ciclismo_youtubers/sala.
+- Na Central o site aparece como "ciclismo_youtubers", pasta gravável: sala.
+- Aberto direto do PC (sem a trava), roda em modo local (duas abas do mesmo navegador).
 - Quem entra primeiro é o Jogador 1 (azul), o segundo é o Jogador 2 (vermelho).
 - Cada um clica no rosto de quem acha que vai ganhar e aperta COMEÇAR.
-  Quando os dois estão prontos a corrida começa sincronizada nos dois PCs.
 - "resetar sala" no lobby tira os dois jogadores e limpa a partida.
 
 ROSTOS DOS YOUTUBERS
